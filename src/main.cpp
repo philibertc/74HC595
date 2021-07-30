@@ -6,21 +6,25 @@
 //Nombre de registres a décalage
 #define NB_DMX 1
 //Nombre total de pin de registre a décalage
-#define NB_PIN_DMX NB_DMX*8
+#define NB_PIN_DMX NB_DMX * 8
 //Créé un tableau contenant des booléen de la taille du nombre de pin des registres
 boolean registers[NB_PIN_DMX];
 
-void clearRegisters() {
-  for(int i = NB_PIN_DMX - 1; i >=  0; i--){
-     registers[i] = LOW;
+void clearRegisters()
+{
+  for (int i = NB_PIN_DMX; i > 0; i--)
+  {
+    registers[i] = LOW;
   }
 }
 
 //Application des valeurs engregistrées dans le tableau "registers" et application (visualisation) des valeurs à la fin
-void writeRegisters() {
+void writeRegisters()
+{
   digitalWrite(PIN_STCP, LOW);
   //Boucle pour affecter chaque pin des registres
-  for(int i = NB_PIN_DMX - 1; i >=  0; i--){
+  for (int i = NB_PIN_DMX; i > 0; i--)
+  {
     digitalWrite(PIN_SHCP, LOW);
     int val = registers[i];
     digitalWrite(PIN_DS, val);
@@ -28,10 +32,10 @@ void writeRegisters() {
   }
   //On applique toutes les valeurs au registres
   digitalWrite(PIN_STCP, HIGH);
-
 }
 
-void setup() {
+void setup()
+{
   pinMode(PIN_DS, OUTPUT);
   pinMode(PIN_STCP, OUTPUT);
   pinMode(PIN_SHCP, OUTPUT);
@@ -41,12 +45,14 @@ void setup() {
   writeRegisters();
 }
 
-void setRegisterPin(int index, int value) {
+void setRegisterPin(int index, int value)
+{
   registers[index] = value;
 }
 
-void loop() {
-  for (int i = 0; i < 7; i++)
+void loop()
+{
+  for (int i = 0; i < 8; i++)
   {
     setRegisterPin(i, HIGH);
     writeRegisters();
@@ -55,7 +61,7 @@ void loop() {
 
   delay(2000);
 
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 8; i++)
   {
     setRegisterPin(i, LOW);
     writeRegisters();
